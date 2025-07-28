@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Xiao Han - Biomedical AI Research</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 80px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .name {
+            font-size: 3.5em;
+            font-weight: 300;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .title {
+            font-size: 1.4em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
+            padding: 10px 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .contact-item:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        
+        .contact-item a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .cv-download {
+            margin-top: 30px;
+        }
+        
+        .cv-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(40, 167, 69, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .cv-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(40, 167, 69, 0.4);
+            background: linear-gradient(135deg, #218838, #1ea085);
+        }
+        
+        .cv-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .main-content {
+            padding: 60px;
+        }
+        
+        .section {
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section-title {
+            font-size: 2.2em;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+        
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .expertise-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .expertise-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .expertise-category {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .skill-tag {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+        
+        .timeline-item {
+            margin-bottom: 40px;
+            position: relative;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -41px;
+            top: 25px;
+            width: 12px;
+            height: 12px;
+            background: #667eea;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #667eea;
+        }
+        
+        .position-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .company {
+            color: #667eea;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .duration {
+            color: #6c757d;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+        
+        .achievements {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .achievements li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+            color: #495057;
+        }
+        
+        .achievements li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-size: 0.8em;
+        }
+        
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .education-card {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .education-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+        
+        .degree {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .university {
+            color: #667eea;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .year {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        
+        .gpa {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+            display: inline-block;
+            margin-top: 8px;
+        }
+        
+        .awards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .award-card {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #f39c12;
+            transition: all 0.3s ease;
+        }
+        
+        .award-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(243, 156, 18, 0.2);
+        }
+        
+        .award-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .award-year {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px) scale(1.02);
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 40px 30px;
+            }
+            
+            .name {
+                font-size: 2.5em;
+            }
+            
+            .main-content {
+                padding: 40px 30px;
+            }
+            
+            .contact-info {
+                gap: 15px;
+            }
+            
+            .contact-item {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+            
+            .timeline {
+                padding-left: 20px;
+            }
+            
+            .timeline-item::before {
+                left: -31px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1 class="name">Dr. Xiao Han</h1>
+                <p class="title">Professor | AI Healthcare Research | Computational Pathology Expert</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span>📱</span>
+                        <span>+86-19926815230</span>
+                    </div>
+                    <div class="contact-item">
+                        <span>✉️</span>
+                        <a href="mailto:xiao.han2018@outlook.com">xiao.han2018@outlook.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <span>🔗</span>
+                        <a href="https://www.linkedin.com/in/xiaohan2009" target="_blank">LinkedIn</a>
+                    </div>
+                </div>
+                
+                <div class="cv-download">
+                    <a href="path/to/your/cv.pdf" class="cv-btn" download="Xiao_Han_CV.pdf">
+                        <span>📄</span>
+                        Download Full CV
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="section">
+                <h2 class="section-title">Research Expertise</h2>
+                <div class="expertise-grid">
+                    <div class="expertise-card">
+                        <div class="expertise-category">Medical Image Analysis</div>
+                        <p>Advanced techniques in biomedical image processing, computational pathology, and adaptive radiotherapy with focus on precision medicine applications.</p>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Image Processing</span>
+                            <span class="skill-tag">Computational Pathology</span>
+                            <span class="skill-tag">Adaptive Radiotherapy</span>
+                        </div>
+                    </div>
+                    <div class="expertise-card">
+                        <div class="expertise-category">AI & Machine Learning</div>
+                        <p>Deep learning and machine learning methodologies for medical image segmentation, registration, and automated diagnosis systems.</p>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Deep Learning</span>
+                            <span class="skill-tag">Machine Learning</span>
+                            <span class="skill-tag">Neural Networks</span>
+                        </div>
+                    </div>
+                    <div class="expertise-card">
+                        <div class="expertise-category">Technical Skills</div>
+                        <p>Proficient in multiple programming languages and frameworks for developing cutting-edge medical AI applications.</p>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">C/C++</span>
+                            <span class="skill-tag">CUDA</span>
+                            <span class="skill-tag">TensorFlow</span>
+                            <span class="skill-tag">PyTorch</span>
+                            <span class="skill-tag">MATLAB</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-number">80+</div>
+                        <div class="stat-label">Patent Applications</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Journal Publications</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">40+</div>
+                        <div class="stat-label">Patents Granted</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">Top 2%</div>
+                        <div class="stat-label">Most-Cited Scientists</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Professional Experience</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="position-title">Professor</div>
+                        <div class="company">Sichuan University, China</div>
+                        <div class="duration">May 2025 — Present</div>
+                        <ul class="achievements">
+                            <li>Leading advancements in computational pathology for disease diagnosis and precision medicine</li>
+                            <li>Developing self-supervised learning methods for multi-modal feature extraction</li>
+                            <li>Creating weakly supervised multi-instance learning techniques for cancer diagnosis</li>
+                            <li>Building pathology foundation models for generalized cancer diagnosis and prognosis</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="position-title">Principal Scientist & Deputy Director</div>
+                        <div class="company">AI Healthcare Center, Tencent Inc.</div>
+                        <div class="duration">May 2018 — April 2025</div>
+                        <ul class="achievements">
+                            <li>Led development of Augmented Reality Intelligent Microscope (Class II medical device certification)</li>
+                            <li>Created Tencent AIMIS Digital Pathology Platform (EU CE certified, won Advanced Technology Achievement Award)</li>
+                            <li>Developed China's first AI-assisted peripheral blood cell analysis product with Mindray Medical</li>
+                            <li>Supervised and co-authored 40+ papers in internationally renowned journals</li>
+                            <li>Filed 80+ China national patents, 40 granted, including Outstanding National Patent Award winner</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="position-title">Senior Scientist</div>
+                        <div class="company">Elekta Inc.</div>
+                        <div class="duration">March 2006 — April 2018</div>
+                        <ul class="achievements">
+                            <li>Developed ADMIRE® (Advanced Medical Image Registration Engine) research software</li>
+                            <li>Led development of ABAS® (Atlas-based Auto-Segmentation) product</li>
+                            <li>Advanced deformable image registration methods for CT, CBCT, and MR images</li>
+                            <li>Created synthetic CT generation methods for MRI-only radiation therapy</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="position-title">Postdoctoral Fellow</div>
+                        <div class="company">Massachusetts General Hospital & Johns Hopkins University</div>
+                        <div class="duration">November 2003 — March 2006</div>
+                        <ul class="achievements">
+                            <li>Developed brain morphometric analysis and whole brain parcellation methods</li>
+                            <li>Created novel multi-grid numerical methods for gradient vector flow computation</li>
+                            <li>Proposed atlas normalization methods improving brain MR image segmentation accuracy</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Education</h2>
+                <div class="education-grid">
+                    <div class="education-card">
+                        <div class="degree">Ph.D. in Electrical Engineering</div>
+                        <div class="university">The Johns Hopkins University</div>
+                        <div class="year">October 2003</div>
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #6c757d;">Dissertation: "Anatomically Consistent Segmentation of Medical Imagery Using a Level Set Method and Digital Topology"</p>
+                    </div>
+                    <div class="education-card">
+                        <div class="degree">M.Sc. in Electrical Engineering</div>
+                        <div class="university">The Johns Hopkins University</div>
+                        <div class="year">May 2001</div>
+                        <div class="gpa">GPA: 4.0/4.0</div>
+                    </div>
+                    <div class="education-card">
+                        <div class="degree">M.Eng. in Electrical Engineering</div>
+                        <div class="university">National University of Singapore</div>
+                        <div class="year">June 1997</div>
+                        <div class="gpa">GPA: 4.0/4.0</div>
+                    </div>
+                    <div class="education-card">
+                        <div class="degree">B.Sc. in Electrical Engineering</div>
+                        <div class="university">University of Science and Technology of China</div>
+                        <div class="year">July 1994</div>
+                        <div class="gpa">GPA: 3.7/4.0</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Honors & Awards</h2>
+                <div class="awards-grid">
+                    <div class="award-card">
+                        <div class="award-title">World's Top 2% Most-cited Scientists</div>
+                        <div class="award-year">Stanford University, 2020-2024</div>
+                    </div>
+                    <div class="award-card">
+                        <div class="award-title">Excellence Award - National Patent Awards</div>
+                        <div class="award-year">China, 2022</div>
+                    </div>
+                    <div class="award-card">
+                        <div class="award-title">Advanced Technology Achievement Award</div>
+                        <div class="award-year">China International Big Data Industry Expo, 2022</div>
+                    </div>
+                    <div class="award-card">
+                        <div class="award-title">Gold Prize - Annual Patent Awards</div>
+                        <div class="award-year">Tencent, 2022 & 2023</div>
+                    </div>
+                    <div class="award-card">
+                        <div class="award-title">First Prize - AAPM Thoracic Auto-Segmentation</div>
+                        <div class="award-year">Denver, USA, 2017</div>
+                    </div>
+                    <div class="award-card">
+                        <div class="award-title">First Prize - LiTS Liver Tumor Segmentation</div>
+                        <div class="award-year">ISBI 2017, Melbourne</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Professional Activities</h2>
+                <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 30px; border-radius: 15px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
+                        <div>
+                            <h4 style="color: #2c3e50; margin-bottom: 15px;">Editorial & Conference Roles</h4>
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="margin-bottom: 8px;">• Senior Program Committee, AAAI 2026</li>
+                                <li style="margin-bottom: 8px;">• Senior Member of IEEE</li>
+                                <li>• Member of AAPM</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color: #2c3e50; margin-bottom: 15px;">Journal Reviewer</h4>
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="margin-bottom: 5px;">• Nature Communications</li>
+                                <li style="margin-bottom: 5px;">• IEEE Trans. on PAMI</li>
+                                <li style="margin-bottom: 5px;">• IEEE Trans. on Medical Imaging</li>
+                                <li style="margin-bottom: 5px;">• Medical Image Analysis</li>
+                                <li>• And 5+ more prestigious journals</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
